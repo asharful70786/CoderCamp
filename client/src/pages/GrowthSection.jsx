@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { FaCheckCircle, FaCog, FaUserTie, FaChartBar, FaShieldAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const features = [
   {
@@ -82,7 +83,7 @@ export default function GrowthSection() {
           </motion.div>
         ))}
       </motion.div>
-
+      <Link to="/contact">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -96,6 +97,7 @@ export default function GrowthSection() {
           Ready to take the next step? We’re just a message away.
         </p>
       </motion.div>
+      </Link>
     </section>
   );
 }

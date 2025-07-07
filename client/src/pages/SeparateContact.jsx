@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaPaperPlane, FaUser, FaGlobe } from "react-icons/fa";
-import ScrollingBoll from "../components/ScrollingBoll";
+import { useState } from "react";
+
 const SeparateContact = () => {
   const contactInfo = [
     {
@@ -26,9 +27,90 @@ const SeparateContact = () => {
     }
   ];
 
-  return (
-    <>
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    country: "",
+    phone: "",
+    interest: "",
+    message: ""
+  });
 
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Clear error when user types
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: null
+      }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+    if (!formData.message.trim()) newErrors.message = "Message is required";
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    
+    try {
+      const response = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setSubmitStatus({ success: true, message: data.message || "Message sent successfully!" });
+        setFormData({
+          name: "",
+          email: "",
+          country: "",
+          phone: "",
+          interest: "",
+          message: ""
+        });
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to send message");
+      }
+    } catch (error) {
+      setSubmitStatus({ success: false, message: error.message || "An error occurred. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
     <section className="relative bg-gradient-to-br w-full from-gray-900 via-black to-gray-900 text-white py-24 px-6 overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -147,7 +229,13 @@ const SeparateContact = () => {
                   We've got the skills.
                 </motion.p>
 
-                <form className="space-y-6">
+                {submitStatus && (
+                  <div className={`mb-6 p-4 rounded-xl ${submitStatus.success ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"} font-medium`}>
+                    {submitStatus.message}
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Name Input */}
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }}
@@ -158,9 +246,13 @@ const SeparateContact = () => {
                     <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 group-focus-within:text-green-600 transition-colors duration-300" />
                     <input
                       type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
                       placeholder="Your Name"
-                      className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/90 focus:bg-white border-2 border-black/30 focus:border-green-500 focus:outline-none placeholder-gray-600 text-black font-medium transition-all duration-300 shadow-lg focus:shadow-xl"
+                      className={`w-full pl-12 pr-4 py-4 rounded-xl bg-white/90 focus:bg-white border-2 ${errors.name ? "border-red-500" : "border-black/30 focus:border-green-500"} focus:outline-none placeholder-gray-600 text-black font-medium transition-all duration-300 shadow-lg focus:shadow-xl`}
                     />
+                    {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
                   </motion.div>
 
                   {/* Email Input */}
@@ -173,9 +265,13 @@ const SeparateContact = () => {
                     <FaEnvelope className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 group-focus-within:text-green-600 transition-colors duration-300" />
                     <input
                       type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
                       placeholder="Email"
-                      className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/90 focus:bg-white border-2 border-black/30 focus:border-green-500 focus:outline-none placeholder-gray-600 text-black font-medium transition-all duration-300 shadow-lg focus:shadow-xl"
+                      className={`w-full pl-12 pr-4 py-4 rounded-xl bg-white/90 focus:bg-white border-2 ${errors.email ? "border-red-500" : "border-black/30 focus:border-green-500"} focus:outline-none placeholder-gray-600 text-black font-medium transition-all duration-300 shadow-lg focus:shadow-xl`}
                     />
+                    {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
                   </motion.div>
 
                   {/* Country and Phone Row */}
@@ -189,6 +285,9 @@ const SeparateContact = () => {
                       <FaGlobe className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 group-focus-within:text-green-600 transition-colors duration-300" />
                       <input
                         type="text"
+                        name="country"
+                        value={formData.country}
+                        onChange={handleChange}
                         placeholder="Country"
                         className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/90 focus:bg-white border-2 border-black/30 focus:border-green-500 focus:outline-none placeholder-gray-600 text-black font-medium transition-all duration-300 shadow-lg focus:shadow-xl"
                       />
@@ -197,6 +296,9 @@ const SeparateContact = () => {
                       <FaPhoneAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 group-focus-within:text-green-600 transition-colors duration-300" />
                       <input
                         type="text"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
                         placeholder="Phone"
                         className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/90 focus:bg-white border-2 border-black/30 focus:border-green-500 focus:outline-none placeholder-gray-600 text-black font-medium transition-all duration-300 shadow-lg focus:shadow-xl"
                       />
@@ -211,6 +313,9 @@ const SeparateContact = () => {
                   >
                     <input
                       type="text"
+                      name="interest"
+                      value={formData.interest}
+                      onChange={handleChange}
                       placeholder="What is your interest?"
                       className="w-full px-4 py-4 rounded-xl bg-white/90 focus:bg-white border-2 border-black/30 focus:border-green-500 focus:outline-none placeholder-gray-600 text-black font-medium transition-all duration-300 shadow-lg focus:shadow-xl"
                     />
@@ -224,9 +329,13 @@ const SeparateContact = () => {
                   >
                     <textarea
                       rows="4"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
                       placeholder="Message"
-                      className="w-full px-4 py-4 rounded-xl bg-white/90 focus:bg-white border-2 border-black/30 focus:border-green-500 focus:outline-none placeholder-gray-600 text-black font-medium transition-all duration-300 shadow-lg focus:shadow-xl resize-none"
+                      className={`w-full px-4 py-4 rounded-xl bg-white/90 focus:bg-white border-2 ${errors.message ? "border-red-500" : "border-black/30 focus:border-green-500"} focus:outline-none placeholder-gray-600 text-black font-medium transition-all duration-300 shadow-lg focus:shadow-xl resize-none`}
                     ></textarea>
+                    {errors.message && <p className="text-red-600 text-sm mt-1">{errors.message}</p>}
                   </motion.div>
 
                   {/* Submit Button */}
@@ -240,10 +349,17 @@ const SeparateContact = () => {
                     whileTap={{ scale: 0.98 }}
                     transition={{ delay: 1.0 }}
                     type="submit"
+                    disabled={isSubmitting}
                     className="w-full bg-black hover:bg-gray-800 text-white py-4 rounded-xl font-bold text-lg shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 group"
                   >
-                    <span>Let's Connect</span>
-                    <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                    {isSubmitting ? (
+                      "Sending..."
+                    ) : (
+                      <>
+                        <span>Let's Connect</span>
+                        <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                      </>
+                    )}
                   </motion.button>
                 </form>
               </div>
@@ -252,9 +368,7 @@ const SeparateContact = () => {
         </div>
       </div>
     </section>
-    </>
   );
 };
 
 export default SeparateContact;
-

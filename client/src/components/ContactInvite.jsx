@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { PopupButton } from "react-calendly";   // NEW ✅
 
 const ContactInvite = () => {
   const [copied, setCopied] = useState(false);
 
   const handleEmailClick = async () => {
     try {
-      await navigator.clipboard.writeText('contact@codercamp.com');
+      await navigator.clipboard.writeText("contact@codercamp.com");
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      window.location.href = 'mailto:contact@codercamp.com';
+      window.location.href = "mailto:contact@codercamp.com";
     }
   };
 
@@ -34,22 +35,29 @@ const ContactInvite = () => {
         </h2>
 
         {/* Subtitle */}
-        <p className="text-base md:text-lg text-gray-300 mb-8">
+        <p className="text-base md:text-lg text-gray-300 mb-10">
           Share your ideas with us — and we’ll help you bring them to life with meaningful solutions.
         </p>
 
-        {/* CTA Button */}
-        <button
-          onClick={handleEmailClick}
-          className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full text-white font-medium text-base hover:scale-105 transition-all"
-        >
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-          </svg>
-          contact@codercamp.com
-        </button>
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+      
 
-        {/* Copied text */}
+          {/* Calendly pop-up button */}
+          <PopupButton
+            url="https://calendly.com/contact-codercamp/30min"
+            rootElement={document.getElementById("root") ?? document.body}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r bg-orange-500 text-white font-medium hover:scale-105 transition-all"
+            text="Book 30-Min Call"
+          >
+            {/* Optional icon inside */}
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14l4-4h12c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
+            </svg>
+          </PopupButton>
+        </div>
+
+        {/* Copied feedback */}
         {copied && (
           <div className="mt-3 text-sm text-green-400 animate-bounce">
             Copied to clipboard!

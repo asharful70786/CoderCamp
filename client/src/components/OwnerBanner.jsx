@@ -9,6 +9,7 @@ import {
   FaHeart,
   FaRocket
 } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const OwnerBanner = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -80,6 +81,7 @@ const OwnerBanner = () => {
           </div>
 
           {/* Tagline */}
+       
           <motion.p
             className="text-lg md:text-xl text-gray-300 mb-8 max-w-xl leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
@@ -92,6 +94,7 @@ const OwnerBanner = () => {
             </span>{" "}
             — founder to founder, with complete transparency.
           </motion.p>
+     
 
           {/* CTA */}
           {/* CTA */}
@@ -152,11 +155,11 @@ const OwnerBanner = () => {
                   <FaStar key={i} className="text-yellow-400 text-sm" />
                 ))}
               </div>
-              <span className="text-xs text-gray-400">500+ Happy Founders</span>
+              <span className="text-xs text-gray-400">50+ Happy Founders</span>
             </div>
             <div className="flex items-center gap-2">
               <FaRocket className="text-cyan-400" />
-              <span className="text-xs text-gray-400">Avg. Response 2 h</span>
+              <span className="text-xs text-gray-400">Avg. Response 1 h</span>
             </div>
           </motion.div>
         </motion.div>
@@ -209,7 +212,7 @@ const OwnerBanner = () => {
                 className="absolute bottom-4 left-4 right-4
                            bg-black/60 backdrop-blur-md rounded-xl p-3"
               >
-                <h4 className="font-bold">Ashraful Islam</h4>
+                <h4 className="font-bold">MD Ashraful  Momin</h4>
                 <p className="text-xs text-gray-300">Founder & Lead Developer</p>
                 <div className="flex items-center gap-1 mt-1 text-yellow-400">
                   {[...Array(5)].map((_, i) => (

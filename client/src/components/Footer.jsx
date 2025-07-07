@@ -4,14 +4,32 @@ const Footer = () => {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (email) {
+  const handleSubscribe = async (e) => {
+  e.preventDefault();
+  if (!email) return;
+
+  try {
+    const res = await fetch('http://localhost:5000/api/subscribe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
       setSubscribed(true);
       setEmail('');
       setTimeout(() => setSubscribed(false), 3000);
+    } else {
+      alert("Subscription failed. Please try again later.");
     }
-  };
+  } catch (error) {
+    console.error("Error subscribing:", error);
+    alert("Something went wrong.");
+  }
+};
+
 
   const currentYear = new Date().getFullYear();
 
@@ -67,13 +85,14 @@ const Footer = () => {
                 </button>
               </form>
               {subscribed && (
-                <p className="text-green-400 text-sm flex items-center gap-2">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
-                  </svg>
-                  Thanks for subscribing!
-                </p>
-              )}
+  <div className="flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-green-600 px-4 py-2 rounded-lg shadow-lg text-white animate-fade-in-out">
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+    </svg>
+    Subscribed successfully! 🎉
+  </div>
+)}
+
             </div>
           </div>
 

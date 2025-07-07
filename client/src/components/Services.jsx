@@ -1,4 +1,4 @@
-import React from "react";
+import {Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   FaLaptopCode,
@@ -257,6 +257,8 @@ const ServicesSection = () => {
           </motion.p>
           
           <motion.div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            {/*  */}
+            <Link to="/contact" >
             <motion.button
               whileHover={{ 
                 scale: 1.05,
@@ -267,6 +269,7 @@ const ServicesSection = () => {
             >
               Get Started Today
             </motion.button>
+            </Link>
             
             <motion.button
               whileHover={{ scale: 1.05 }}

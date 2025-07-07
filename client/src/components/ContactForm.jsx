@@ -7,6 +7,7 @@ import {
   FaUser,
   FaGlobe,
 } from "react-icons/fa";
+import { useState } from "react";
 
 const ContactForm = () => {
   const contactInfo = [
@@ -32,6 +33,89 @@ const ContactForm = () => {
       hoverColor: "group-hover:text-pink-300",
     },
   ];
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    country: "",
+    phone: "",
+    interest: "",
+    message: ""
+  });
+
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Clear error when user types
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: null
+      }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+    if (!formData.message.trim()) newErrors.message = "Message is required";
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    
+    try {
+      const response = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setSubmitStatus({ success: true, message: data.message || "Message sent successfully!" });
+        setFormData({
+          name: "",
+          email: "",
+          country: "",
+          phone: "",
+          interest: "",
+          message: ""
+        });
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to send message");
+      }
+    } catch (error) {
+      setSubmitStatus({ success: false, message: error.message || "An error occurred. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white py-24 px-6 overflow-hidden">
@@ -146,31 +230,48 @@ const ContactForm = () => {
                   transition={{ delay: 0.4 }}
                   className="text-base font-medium mb-6 text-gray-600"
                 >
-                  We’ve got the skills.
+                  We've got the skills.
                 </motion.p>
 
-                <form className="space-y-4">
+                {submitStatus && (
+                  <div className={`mb-4 p-4 rounded-xl ${submitStatus.success ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                    {submitStatus.message}
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="relative group">
                     <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-300" />
                     <input
                       type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
                       placeholder="Your Name"
-                      className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/80 focus:bg-white border-2 border-gray-200 focus:border-blue-400 focus:outline-none placeholder-gray-500 text-gray-800 font-medium transition-all duration-300 shadow-lg focus:shadow-xl"
+                      className={`w-full pl-12 pr-4 py-4 rounded-xl bg-white/80 focus:bg-white border-2 ${errors.name ? "border-red-400" : "border-gray-200 focus:border-blue-400"} focus:outline-none placeholder-gray-500 text-gray-800 font-medium transition-all duration-300 shadow-lg focus:shadow-xl`}
                     />
+                    {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                   </div>
                   <div className="relative group">
                     <FaEnvelope className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-300" />
                     <input
                       type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
                       placeholder="Email Address"
-                      className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/80 focus:bg-white border-2 border-gray-200 focus:border-blue-400 focus:outline-none placeholder-gray-500 text-gray-800 font-medium transition-all duration-300 shadow-lg focus:shadow-xl"
+                      className={`w-full pl-12 pr-4 py-4 rounded-xl bg-white/80 focus:bg-white border-2 ${errors.email ? "border-red-400" : "border-gray-200 focus:border-blue-400"} focus:outline-none placeholder-gray-500 text-gray-800 font-medium transition-all duration-300 shadow-lg focus:shadow-xl`}
                     />
+                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <div className="relative group flex-1">
                       <FaGlobe className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-300" />
                       <input
                         type="text"
+                        name="country"
+                        value={formData.country}
+                        onChange={handleChange}
                         placeholder="Country"
                         className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/80 focus:bg-white border-2 border-gray-200 focus:border-blue-400 focus:outline-none placeholder-gray-500 text-gray-800 font-medium transition-all duration-300 shadow-lg focus:shadow-xl"
                       />
@@ -179,6 +280,9 @@ const ContactForm = () => {
                       <FaPhoneAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-300" />
                       <input
                         type="text"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
                         placeholder="Phone"
                         className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/80 focus:bg-white border-2 border-gray-200 focus:border-blue-400 focus:outline-none placeholder-gray-500 text-gray-800 font-medium transition-all duration-300 shadow-lg focus:shadow-xl"
                       />
@@ -186,14 +290,23 @@ const ContactForm = () => {
                   </div>
                   <input
                     type="text"
+                    name="interest"
+                    value={formData.interest}
+                    onChange={handleChange}
                     placeholder="What is your interest?"
                     className="w-full px-4 py-4 rounded-xl bg-white/80 focus:bg-white border-2 border-gray-200 focus:border-blue-400 focus:outline-none placeholder-gray-500 text-gray-800 font-medium transition-all duration-300 shadow-lg focus:shadow-xl"
                   />
-                  <textarea
-                    rows="4"
-                    placeholder="Tell us about your project..."
-                    className="w-full px-4 py-4 rounded-xl bg-white/80 focus:bg-white border-2 border-gray-200 focus:border-blue-400 focus:outline-none placeholder-gray-500 text-gray-800 font-medium transition-all duration-300 shadow-lg focus:shadow-xl resize-none"
-                  ></textarea>
+                  <div>
+                    <textarea
+                      rows="4"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Tell us about your project..."
+                      className={`w-full px-4 py-4 rounded-xl bg-white/80 focus:bg-white border-2 ${errors.message ? "border-red-400" : "border-gray-200 focus:border-blue-400"} focus:outline-none placeholder-gray-500 text-gray-800 font-medium transition-all duration-300 shadow-lg focus:shadow-xl resize-none`}
+                    ></textarea>
+                    {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+                  </div>
                   <motion.button
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -204,10 +317,17 @@ const ContactForm = () => {
                     whileTap={{ scale: 0.98 }}
                     transition={{ delay: 1.0 }}
                     type="submit"
+                    disabled={isSubmitting}
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 rounded-xl font-bold text-base shadow-2xl transition-all duration-300 flex items-center justify-center gap-2 group"
                   >
-                    <span>Let’s Connect</span>
-                    <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                    {isSubmitting ? (
+                      "Sending..."
+                    ) : (
+                      <>
+                        <span>Let's Connect</span>
+                        <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                      </>
+                    )}
                   </motion.button>
                 </form>
               </div>

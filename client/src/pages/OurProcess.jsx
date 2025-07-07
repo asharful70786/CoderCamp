@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const OurProcess = () => {
   const steps = [
@@ -161,6 +162,7 @@ const OurProcess = () => {
         transition={{ delay: 0.8 }}
         className="mt-16 text-center"
       >
+        <Link to="/contact">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -168,6 +170,7 @@ const OurProcess = () => {
         >
           Connect Us
         </motion.button>
+        </Link>
         <p className="mt-4 text-gray-400 text-sm">
           Ready to take your idea to the next level? Let’s build something amazing together.
         </p>
