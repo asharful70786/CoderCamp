@@ -58,7 +58,7 @@ export const sendSubscriptionMail = async ({ email }) => {
   await transporter.sendMail({
     from: `"CoderCamp Newsletter Bot" <${process.env.NODE_MAILER_EMAIL}>`,
     to: process.env.Node_MAILER_Reciver,
-    subject: "📧 New Subscriber via CoderCamp",
+    subject: " New Subscriber via CoderCamp",
     html: htmlTemplate,
   });
 };

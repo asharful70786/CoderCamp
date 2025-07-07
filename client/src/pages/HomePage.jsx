@@ -11,6 +11,7 @@ import WhatWeDo from './WhatWeDo';
 import ProcessStrip from '../components/ProcessStrip';
 import ContactInvite from '../components/ContactInvite';
 import ProjectShowcase from '../components/ProjectShowcase';
+import OwnerBanner from '../components/OwnerBanner';
 
  function HomePage() {
   return (
@@ -20,9 +21,11 @@ import ProjectShowcase from '../components/ProjectShowcase';
       <ProcessStrip />
       <WhatWeDo />
       <TechStack /> 
-       <ProjectShowcase />    
+       <ProjectShowcase />  
+     
       <GrowthSection />
       <Services />
+        <OwnerBanner />  
       <OurProcess />
      
       <ContactForm />
