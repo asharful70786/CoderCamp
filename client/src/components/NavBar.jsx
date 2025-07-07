@@ -7,9 +7,9 @@ import { TbReport } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 
 const navItems = [
-  { name: "Home", to: "home", icon: <Home className="w-4 h-4" /> },
-  { name: "Products", to: "products", icon: <Package className="w-4 h-4" /> },
-  { name: "Contact", to: "contact", icon: <Phone className="w-4 h-4" /> },
+  { name: "Home", to: "/", icon: <Home /> },
+  { name: "Projects", to: "/projects", icon: <Package /> },
+  { name: "Contact", to: "/contact", icon: <Phone /> },
 ];
 
 const NavBar = () => {
@@ -17,15 +17,12 @@ const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  setActiveSection(window.location.pathname);
+}, [window.location.pathname]);
+
 
   const handleLogoClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -33,20 +30,13 @@ const NavBar = () => {
     setMobileMenuOpen(false);
   };
 
-  const handleNavClick = (sectionId) => {
-    setActiveSection(sectionId);
-    setMobileMenuOpen(false);
+    const handleNavClick = (path) => {
+       setActiveSection(path);
+       setMobileMenuOpen(false);
+       navigate(path);
+      };
 
-    if (sectionId === "home") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
 
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
     <>
@@ -82,7 +72,7 @@ const NavBar = () => {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  onClick={() => handleNavClick(item.to)}
+                onClick={() => handleNavClick(item.to)}
                   className={cn(
                     "group relative flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-500",
                     activeSection === item.to
@@ -207,7 +197,7 @@ const NavBar = () => {
                       initial={{ x: 50, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: index * 0.1 }}
-                      onClick={() => handleNavClick(item.to)}
+                     onClick={() => handleNavClick(item.to)}
                       className={cn(
                         "w-full flex items-center gap-4 px-6 py-4 rounded-xl font-semibold transition-all duration-300",
                         activeSection === item.to

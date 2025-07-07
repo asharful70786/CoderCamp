@@ -14,7 +14,7 @@ const ContactInvite = () => {
   };
 
   return (
-    <section className="relative bg-gradient-to-b from-gray-900 via-black to-gray-950 text-white overflow-hidden">
+    <section className="relative w-full bg-gradient-to-b from-gray-900 via-black to-gray-950 text-white overflow-hidden">
       {/* Light blurred backgrounds */}
       <div className="absolute -top-24 left-10 w-40 h-40 bg-orange-400 opacity-20 rounded-full blur-3xl" />
       <div className="absolute -bottom-16 right-10 w-40 h-40 bg-indigo-500 opacity-20 rounded-full blur-3xl" />
