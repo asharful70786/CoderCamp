@@ -97,21 +97,7 @@ const NavBar = () => {
               ))}
             </nav>
 
-            {/* DOWNLOAD BUTTON */}
-            <div className="hidden lg:block">
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  asChild
-                  className="bg-gradient-to-r from-blue-500 via-purple-500 to-gray-800 hover:from-blue-600 hover:via-purple-600 hover:to-gray-900 text-white rounded-xl shadow-2xl transition-all px-6 py-3 border-0"
-                >
-                  <a href={pdfUrl} download className="flex items-center gap-2">
-                    <Download className="w-4 h-4" />
-                    Download Catalog
-                    <TbReport className="w-4 h-4" />
-                  </a>
-                </Button>
-              </motion.div>
-            </div>
+    
 
             {/* MOBILE TOGGLE */}
             <motion.button
