@@ -7,8 +7,12 @@ import subscribeRoutes from "./routes/subscribeRoutes.js";
 dotenv.config();
 const app = express();
 app.use(express.json());
+
+app.options("*", cors());
+
 app.use(cors({
-  origin: "https://codercamp.ashraful.in",
+  origin: "https://codercamp.ashraful.in", 
+ 
 }));
 
 
