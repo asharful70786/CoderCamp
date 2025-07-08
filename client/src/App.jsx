@@ -1,11 +1,12 @@
 import "./App.css"
-import { Route , Routes  } from "react-router-dom"
+import { Route , Router, Routes  } from "react-router-dom"
 import NavBar from "./components/NavBar"
 import HomePage from "./pages/HomePage"
 import Footer from "./components/Footer"
 
 import ScrollToTop from "./components/ScrollToTop"
 import PremiumContact from "./pages/premiumContact"
+import Career from "./components/CareerOpoortunity"
 
 
 
@@ -19,6 +20,8 @@ function App() {
         <Route path="/" element={<HomePage/>}/>
         <Route path="/contact" element={< PremiumContact/>}/>
         <Route path="*" element={<HomePage/>}/>
+        <Route path="career" element={<Career/>}/>
+
      </Routes>
       <Footer/>
  
