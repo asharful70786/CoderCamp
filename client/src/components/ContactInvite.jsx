@@ -6,11 +6,11 @@ const ContactInvite = () => {
 
   const handleEmailClick = async () => {
     try {
-      await navigator.clipboard.writeText("contact@codercamp.com");
+      await navigator.clipboard.writeText("contact.codercamp@gmail.com");
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      window.location.href = "mailto:contact@codercamp.com";
+      window.location.href = "mailto:contact.codercamp@gmail.com";
     }
   };
 

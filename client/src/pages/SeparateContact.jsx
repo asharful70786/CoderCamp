@@ -7,7 +7,7 @@ const SeparateContact = () => {
     {
       icon: FaEnvelope,
       label: "MAIL US",
-      value: "contact@codercamp.in",
+      value: "contact.codercamp@gmail.com",
       color: "from-blue-400 to-cyan-400",
       hoverColor: "group-hover:text-cyan-300"
     },

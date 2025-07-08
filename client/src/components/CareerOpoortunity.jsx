@@ -171,7 +171,7 @@ const Career = () => {
               Demonstrate your capabilities and let's discuss how you can contribute to our next evolution.
             </p>
             <motion.a 
-              href="mailto:build@codercamp.in" 
+              href="mailto:contact.codercamp@gmail.com" 
               whileHover={{ scale: 1.05, y: -2 }} 
               whileTap={{ scale: 0.98 }} 
               className="group inline-flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 px-8 py-4 rounded-full font-semibold text-white shadow-2xl transition-all duration-300"
