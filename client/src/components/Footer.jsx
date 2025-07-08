@@ -9,7 +9,7 @@ const Footer = () => {
   if (!email) return;
 
   try {
-    const res = await fetch('http://localhost:5000/api/subscribe', {
+    const res = await fetch('https://backend.codercamp.ashraful.in/api/subscribe', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
