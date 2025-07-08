@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 app.use("/api/contact", mailRoutes);
 app.use("/api/subscribe", subscribeRoutes);
 
-console.log(process.env.PORT);
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
+
+app.listen(5500, () => {
+  console.log(`Server is running on port 5500`);
 });
