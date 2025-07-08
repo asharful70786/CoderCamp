@@ -27,11 +27,11 @@ const projects = [
       { value: "40%", label: "Appointment load reduction" },
     ],
     button: "Explore AI-Doctor Demo",
-    image: "https://ik.imagekit.io/thinktoshare/images/case-study/callmate/call-mate.webp?tr=f-webp,q-80",
-    link: "https://babyjohn.in/ai-doctor",
+    image: "/AiDoctor.png",
+    link: "https://github.com/asharful70786/Ai-Doctor",
     gradient: "from-green-600 to-teal-600",
     iconColor: "text-green-400"
-  },
+  }, 
   {
     category: "E-Commerce",
     title: "BabyJohn: Wholesale Diaper Store with Order and Inquiry System",

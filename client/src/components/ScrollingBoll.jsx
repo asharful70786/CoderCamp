@@ -40,7 +40,7 @@ const ScrollingBoll = () => {
               Let the{' '}
               <span className="relative inline-block">
                 <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-gradient-x">
-                  Techin
+                  Tech
                 </span>
                 <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-red-500 rounded-full transform scale-x-0 animate-scale-x"></div>
               </span>{' '}

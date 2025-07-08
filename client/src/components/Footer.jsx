@@ -100,10 +100,10 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold text-lg mb-6">Quick Links</h4>
             <ul className="space-y-3">
-              {['Courses', 'Bootcamps', 'Workshops', 'Mentorship', 'Community', 'Blog'].map((link) => (
+              {['career ', 'Bootcamps', 'Workshops', 'Mentorship', 'Community', 'Blog'].map((link) => (
                 <li key={link}>
                   <a 
-                    href={`#${link.toLowerCase()}`}
+                    href={`/${link.toLowerCase()}`}
                     className="text-gray-300 hover:text-orange-400 transition-colors duration-300 flex items-center gap-2 group"
                   >
                     <svg className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 24 24">
