@@ -87,7 +87,7 @@ const ContactForm = () => {
     setSubmitStatus(null);
     
     try {
-      const response = await fetch("https://backend.codercamp.ashraful.in/api/contact", {
+      const response = await fetch("https://coder-camp-server.vercel.app/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
