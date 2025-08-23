@@ -34,11 +34,7 @@ const Career = () => {
       tech: ["Python", "LLMs", "Computer Vision", "NLP"],
       gradient: "from-purple-500 to-pink-500"
     },
-    {
-      title: "Blockchain Developer",
-      tech: ["Solidity", "EVM", "Smart Contracts", "ZKPs"],
-      gradient: "from-emerald-500 to-teal-500"
-    },
+   
     {
       title: "Cloud Infrastructure Lead",
       tech: ["Kubernetes", "Terraform", "AWS", "Observability"],
